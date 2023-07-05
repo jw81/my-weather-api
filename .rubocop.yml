@@ -20,4 +20,6 @@ AllCops:
     - 'config/routes.rb'
     - 'config/environments/**'
     - 'config/initializers/**'
+    - 'spec/rails_helper.rb'
+    - 'spec/spec_helper.rb'
     - 'vendor/bundle/**/*'

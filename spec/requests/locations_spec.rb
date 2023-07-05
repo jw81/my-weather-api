@@ -16,7 +16,8 @@ RSpec.describe 'Locations', type: :request do
 
     context 'with records in the database' do
       before do
-        @sample_location = Location.create!(name: 'Sample Location', latitude: 39.07, longitude: -93.71)
+        @test_location = Location.create!(name: 'Sample Location', latitude: 39.07, longitude: -93.71)
+        @test_location = @test_location.as_json
       end
 
       it 'successfully returns a populated collection' do
@@ -25,9 +26,9 @@ RSpec.describe 'Locations', type: :request do
         first_location = parsed_response.first
 
         expect(response).to have_http_status(:success)
-        expect(first_location['name']).to eq(@sample_location.name)
-        expect(first_location['latitude']).to eq(@sample_location.latitude.to_s) # find alternative to calling .to_s
-        expect(first_location['longitude']).to eq(@sample_location.longitude.to_s) # find alternative to calling .to_s
+        expect(first_location['name']).to eq(@test_location['name'])
+        expect(first_location['latitude']).to eq(@test_location['latitude'])
+        expect(first_location['longitude']).to eq(@test_location['longitude'])
       end
     end
   end

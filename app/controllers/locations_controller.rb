@@ -2,7 +2,7 @@
 
 # CRUD actions for the 'Locations' resource
 class LocationsController < ApplicationController
-  before_action :load_location, only: [:show, :update]
+  before_action :load_location, only: [:show, :update, :destroy]
 
   def index
     locations = Location.all
@@ -28,6 +28,16 @@ class LocationsController < ApplicationController
     if @location
       location = Location.find(params[:id])
       location.update!(location_params)
+      render json: location, status: :ok 
+    else
+      message = "No location found with id: #{params[:id]}"
+      render  json: { error: message }, status: :not_found      
+    end
+  end
+
+  def destroy
+    if @location
+      location = Location.destroy(params[:id])
       render json: location, status: :ok 
     else
       message = "No location found with id: #{params[:id]}"

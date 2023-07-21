@@ -95,4 +95,20 @@ RSpec.describe 'Locations', type: :request do
       expect(parsed_response['longitude']).to eq(@test_location['longitude'])
     end
   end
+
+  describe 'DELETE /locations/:id' do
+    before do
+      @test_location = Location.create!(name: 'Sample Location', latitude: '38.8951', longitude: '-77.0364')
+    end
+
+    it "successfully deletes the 'location'" do
+      delete "/locations/#{@test_location.id}"
+      parsed_response = JSON.parse(response.body)
+
+      expect(response).to have_http_status(:success)
+      expect(parsed_response['name']).to eq(@test_location['name'])
+      expect(parsed_response['latitude']).to eq(@test_location['latitude'])
+      expect(parsed_response['longitude']).to eq(@test_location['longitude'])
+    end
+  end
 end

@@ -75,41 +75,68 @@ RSpec.describe 'Locations', type: :request do
   end
 
   describe 'PUT /locations/:id' do
-    before do
-      @test_location = Location.create!(name: 'Sample Location', latitude: '38.8951', longitude: '-77.0364')
+    context "when 'location' does not exist" do
+      it 'returns HTTP status 404' do
+        put '/locations/1',
+            params: {
+              location: {
+                name: 'Washington D.C. USA',
+                latitude: '38.8951',
+                longitude: '-77.0364'
+              }
+            }
+
+        expect(response.status).to eq(404)
+      end
     end
 
-    it "successfully updates the 'location'" do
-      put "/locations/#{@test_location.id}",
-          params: {
-            location: {
-              name: 'Washington D.C. USA',
-              latitude: '38.8951',
-              longitude: '-77.0364'
-            }
-          }
-      parsed_response = JSON.parse(response.body)
+    context "when 'location' does exist" do
+      before do
+        @test_location = Location.create!(name: 'Sample Location', latitude: '38.8951', longitude: '-77.0364')
+      end
 
-      expect(response).to have_http_status(:success)
-      expect(parsed_response['name']).to eq('Washington D.C. USA')
-      expect(parsed_response['latitude']).to eq(@test_location['latitude'])
-      expect(parsed_response['longitude']).to eq(@test_location['longitude'])
+      it "successfully updates the 'location'" do
+        put "/locations/#{@test_location.id}",
+            params: {
+              location: {
+                name: 'Washington D.C. USA',
+                latitude: '38.8951',
+                longitude: '-77.0364'
+              }
+            }
+        parsed_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:success)
+        expect(parsed_response['name']).to eq('Washington D.C. USA')
+        expect(parsed_response['latitude']).to eq(@test_location['latitude'])
+        expect(parsed_response['longitude']).to eq(@test_location['longitude'])
+      end
     end
   end
 
   describe 'DELETE /locations/:id' do
-    before do
-      @test_location = Location.create!(name: 'Sample Location', latitude: '38.8951', longitude: '-77.0364')
+    context "when 'location' does not exist" do
+      it 'returns HTTP status 404' do
+        delete '/locations/1'
+
+        expect(response.status).to eq(404)
+      end
     end
 
-    it "successfully deletes the 'location'" do
-      delete "/locations/#{@test_location.id}"
-      parsed_response = JSON.parse(response.body)
+    context "when 'location' does exist" do
+      before do
+        @test_location = Location.create!(name: 'Sample Location', latitude: '38.8951', longitude: '-77.0364')
+      end
 
-      expect(response).to have_http_status(:success)
-      expect(parsed_response['name']).to eq(@test_location['name'])
-      expect(parsed_response['latitude']).to eq(@test_location['latitude'])
-      expect(parsed_response['longitude']).to eq(@test_location['longitude'])
+      it "successfully deletes the 'location'" do
+        delete "/locations/#{@test_location.id}"
+        parsed_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:success)
+        expect(parsed_response['name']).to eq(@test_location['name'])
+        expect(parsed_response['latitude']).to eq(@test_location['latitude'])
+        expect(parsed_response['longitude']).to eq(@test_location['longitude'])
+      end
     end
   end
 end

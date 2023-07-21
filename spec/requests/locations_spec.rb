@@ -16,8 +16,7 @@ RSpec.describe 'Locations', type: :request do
 
     context 'with records in the database' do
       before do
-        @test_location = Location.create!(name: 'Sample Location', latitude: 39.07, longitude: -93.71)
-        @test_location = @test_location.as_json
+        @test_location = Location.create!(name: 'Sample Location', latitude: '38.8951', longitude: '-77.0364')
       end
 
       it 'successfully returns a populated collection' do

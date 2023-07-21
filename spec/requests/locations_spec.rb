@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe 'Locations', type: :request do
   describe 'GET /locations' do
     context 'with no records in the database' do
@@ -54,7 +55,7 @@ RSpec.describe 'Locations', type: :request do
         expect(parsed_response['name']).to eq(@test_location['name'])
         expect(parsed_response['latitude']).to eq(@test_location['latitude'])
         expect(parsed_response['longitude']).to eq(@test_location['longitude'])
-      end      
+      end
     end
   end
 
@@ -62,13 +63,13 @@ RSpec.describe 'Locations', type: :request do
     it "successfully creates a new 'location'" do
       post '/locations',
            params: {
-            location: {
-              name: 'Washington D.C.', 
-              latitude: '38.8951', 
-              longitude: '-77.0364' 
-            } 
-          }
-      
+             location: {
+               name: 'Washington D.C.',
+               latitude: '38.8951',
+               longitude: '-77.0364'
+             }
+           }
+
       expect(response.status).to eq(201)
     end
   end
@@ -82,10 +83,10 @@ RSpec.describe 'Locations', type: :request do
       put "/locations/#{@test_location.id}",
           params: {
             location: {
-              name: 'Washington D.C. USA', 
-              latitude: '38.8951', 
-              longitude: '-77.0364' 
-            } 
+              name: 'Washington D.C. USA',
+              latitude: '38.8951',
+              longitude: '-77.0364'
+            }
           }
       parsed_response = JSON.parse(response.body)
 
@@ -112,3 +113,4 @@ RSpec.describe 'Locations', type: :request do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

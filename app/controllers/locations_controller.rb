@@ -19,9 +19,18 @@ class LocationsController < ApplicationController
     end
   end
 
+  def create
+    location = Location.create(location_params)
+    render json: location, status: :created
+  end
+
   private
 
   def load_location
     @location = Location.find_by_id(params[:id])
+  end
+
+  def location_params
+    params.require(:location).permit(:name, :latitude, :longitude)
   end
 end

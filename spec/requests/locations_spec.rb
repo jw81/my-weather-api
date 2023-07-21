@@ -57,4 +57,19 @@ RSpec.describe 'Locations', type: :request do
       end      
     end
   end
+
+  describe 'POST /locations' do
+    it "successfully creates a new 'location'" do
+      post '/locations',
+           params: {
+            location: {
+              name: 'Washington D.C', 
+              latitude: '38.8951', 
+              longitude: '-77.0364' 
+            } 
+          }
+      
+      expect(response.status).to eq(201)
+    end
+  end
 end

@@ -31,4 +31,30 @@ RSpec.describe 'Locations', type: :request do
       end
     end
   end
+
+  describe 'GET /locations/:id' do
+    context "when 'location' does not exist" do
+      it 'returns HTTP status 404' do
+        get '/locations/1'
+
+        expect(response.status).to eq(404)
+      end
+    end
+
+    context "when 'location' does exist" do
+      before do
+        @test_location = Location.create!(name: 'Sample Location', latitude: '38.8951', longitude: '-77.0364')
+      end
+
+      it "successfully returns the 'location'" do
+        get "/locations/#{@test_location.id}"
+        parsed_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:success)
+        expect(parsed_response['name']).to eq(@test_location['name'])
+        expect(parsed_response['latitude']).to eq(@test_location['latitude'])
+        expect(parsed_response['longitude']).to eq(@test_location['longitude'])
+      end      
+    end
+  end
 end

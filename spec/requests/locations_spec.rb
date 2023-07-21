@@ -63,13 +63,36 @@ RSpec.describe 'Locations', type: :request do
       post '/locations',
            params: {
             location: {
-              name: 'Washington D.C', 
+              name: 'Washington D.C.', 
               latitude: '38.8951', 
               longitude: '-77.0364' 
             } 
           }
       
       expect(response.status).to eq(201)
+    end
+  end
+
+  describe 'PUT /locations/:id' do
+    before do
+      @test_location = Location.create!(name: 'Sample Location', latitude: '38.8951', longitude: '-77.0364')
+    end
+
+    it "successfully updates the 'location'" do
+      put "/locations/#{@test_location.id}",
+          params: {
+            location: {
+              name: 'Washington D.C. USA', 
+              latitude: '38.8951', 
+              longitude: '-77.0364' 
+            } 
+          }
+      parsed_response = JSON.parse(response.body)
+
+      expect(response).to have_http_status(:success)
+      expect(parsed_response['name']).to eq('Washington D.C. USA')
+      expect(parsed_response['latitude']).to eq(@test_location['latitude'])
+      expect(parsed_response['longitude']).to eq(@test_location['longitude'])
     end
   end
 end

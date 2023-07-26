@@ -2,6 +2,7 @@
 
 # Represents a weather observation
 class Observation < ApplicationRecord
+  belongs_to :location
   validates :description, presence: true
 
   validates :current_temperature, presence: true

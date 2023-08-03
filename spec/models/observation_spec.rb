@@ -49,7 +49,11 @@ RSpec.describe Observation, type: :model do
       context 'when the value is less than -999.99' do
         it 'fails the validation' do
           expect do
-            Observation.create!(location: example_location, current_temperature: -1000.00, description: example_description)
+            Observation.create!(
+              location: example_location,
+              current_temperature: -1000.00,
+              description: example_description
+            )
           end.to raise_error(ActiveRecord::RecordInvalid)
         end
       end
@@ -57,7 +61,11 @@ RSpec.describe Observation, type: :model do
       context 'when the value is greater than 999.99' do
         it 'fails the validation' do
           expect do
-            Observation.create!(location: example_location, current_temperature: 1000.00, description: example_description)
+            Observation.create!(
+              location: example_location,
+              current_temperature: 1000.00,
+              description: example_description
+            )
           end.to raise_error(ActiveRecord::RecordInvalid)
         end
       end
@@ -65,7 +73,11 @@ RSpec.describe Observation, type: :model do
 
     describe 'when everything is valid' do
       it "successfully creates an 'Observation' record" do
-        Observation.create!(location: example_location, current_temperature: example_temperature, description: example_description)
+        Observation.create!(
+          location: example_location,
+          current_temperature: example_temperature,
+          description: example_description
+        )
       end
     end
   end

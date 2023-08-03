@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_21_191426) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_26_133434) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,4 +22,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_21_191426) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "observations", force: :cascade do |t|
+    t.decimal "current_temperature", precision: 5, scale: 2
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "location_id", null: false
+    t.index ["location_id"], name: "index_observations_on_location_id"
+  end
+
+  add_foreign_key "observations", "locations"
 end

@@ -2,6 +2,7 @@
 
 # Represents a location on Earth
 class Location < ApplicationRecord
+  has_many :observations
   validates :name, presence: true
 
   validates :latitude, presence: true

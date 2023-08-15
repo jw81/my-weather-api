@@ -7,12 +7,12 @@ class ObservationsController < ApplicationController
 
   def index
     observations = @location.observations
-    render json: observations
+    render json: ObservationSerializer.new(observations).serialized_json
   end
 
   def show
     if @observation
-      render json: @observation
+      render json: ObservationSerializer.new(@observation).serialized_json
     else
       message = "No observation found with id: #{params[:observation_id]}"
       render  json: { error: message }, status: :not_found

@@ -6,12 +6,12 @@ class LocationsController < ApplicationController
 
   def index
     locations = Location.all
-    render json: locations
+    render json: LocationSerializer.new(locations).serialized_json
   end
 
   def show
     if @location
-      render json: @location
+      render json: LocationSerializer.new(@location).serialized_json
     else
       message = "No location found with id: #{params[:id]}"
       render  json: { error: message }, status: :not_found
@@ -20,13 +20,13 @@ class LocationsController < ApplicationController
 
   def create
     location = Location.create(location_params)
-    render json: location, status: :created
+    render json: LocationSerializer.new(location).serialized_json, status: :created
   end
 
   def update
     if @location
       @location.update!(location_params)
-      render json: @location, status: :ok
+      render json: LocationSerializer.new(@location).serialized_json, status: :ok
     else
       message = "No location found with id: #{params[:id]}"
       render  json: { error: message }, status: :not_found
@@ -36,7 +36,7 @@ class LocationsController < ApplicationController
   def destroy
     if @location
       @location.destroy!
-      render json: @location, status: :ok
+      render json: LocationSerializer.new(@location).serialized_json, status: :ok
     else
       message = "No location found with id: #{params[:id]}"
       render  json: { error: message }, status: :not_found

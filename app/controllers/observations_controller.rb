@@ -2,7 +2,7 @@
 
 # CRUD actions for the 'Observations' resource
 class ObservationsController < ApplicationController
-  before_action :load_location, only: %i[index show]
+  before_action :load_location, only: %i[index show current]
   before_action :load_observation, only: %i[show]
 
   def index
@@ -17,6 +17,11 @@ class ObservationsController < ApplicationController
       message = "No observation found with id: #{params[:observation_id]}"
       render  json: { error: message }, status: :not_found
     end
+  end
+
+  def current
+    observation = @location.observations.last
+    render json: ObservationSerializer.new(observation).serialized_json
   end
 
   private

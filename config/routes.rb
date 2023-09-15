@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :locations do
-    resources :observations, only: %i[index show]
+    resources :observations, only: %i[index show] do
+      get 'current', on: :collection
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

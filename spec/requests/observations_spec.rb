@@ -18,7 +18,7 @@ RSpec.describe 'Observations', type: :request do
         parsed_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:success)
-        expect(parsed_response).to be_empty
+        expect(parsed_response['data']).to be_empty
       end
     end
 
@@ -37,6 +37,30 @@ RSpec.describe 'Observations', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(parsed_response.count).to eq(1)
+      end
+    end
+  end
+
+  describe 'GET /locations/:location_id/observations/current' do
+    context "when the 'observation' does exist" do
+      before do
+        @test_location = Location.create!(name: 'Sample Location', latitude: '38.8951', longitude: '-77.0364')
+        @test_observation1 = @test_location.observations.create!(
+          current_temperature: '75.00',
+          description: 'sunny'
+        )
+        @test_observation2 = @test_location.observations.create!(
+          current_temperature: '70.00',
+          description: 'cloudy'
+        )
+      end
+
+      it "successfully returns the latest 'observation'" do
+        get "/locations/#{@test_location.id}/observations/current"
+        parsed_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:success)
+        expect(parsed_response['data']['id']).to eq(@test_observation2.id.to_s)
       end
     end
   end

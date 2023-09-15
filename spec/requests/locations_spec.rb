@@ -11,7 +11,7 @@ RSpec.describe 'Locations', type: :request do
         parsed_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:success)
-        expect(parsed_response).to be_empty
+        expect(parsed_response['data']).to be_empty
       end
     end
 
@@ -23,12 +23,12 @@ RSpec.describe 'Locations', type: :request do
       it 'successfully returns a populated collection' do
         get '/locations'
         parsed_response = JSON.parse(response.body)
-        first_location = parsed_response.first
+        first_location = parsed_response['data'].first
 
         expect(response).to have_http_status(:success)
-        expect(first_location['name']).to eq(@test_location['name'])
-        expect(first_location['latitude']).to eq(@test_location['latitude'])
-        expect(first_location['longitude']).to eq(@test_location['longitude'])
+        expect(first_location['attributes']['name']).to eq(@test_location['name'])
+        expect(first_location['attributes']['latitude']).to eq(@test_location['latitude'])
+        expect(first_location['attributes']['longitude']).to eq(@test_location['longitude'])
       end
     end
   end
@@ -52,9 +52,9 @@ RSpec.describe 'Locations', type: :request do
         parsed_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:success)
-        expect(parsed_response['name']).to eq(@test_location['name'])
-        expect(parsed_response['latitude']).to eq(@test_location['latitude'])
-        expect(parsed_response['longitude']).to eq(@test_location['longitude'])
+        expect(parsed_response['data']['attributes']['name']).to eq(@test_location['name'])
+        expect(parsed_response['data']['attributes']['latitude']).to eq(@test_location['latitude'])
+        expect(parsed_response['data']['attributes']['longitude']).to eq(@test_location['longitude'])
       end
     end
   end
@@ -107,9 +107,9 @@ RSpec.describe 'Locations', type: :request do
         parsed_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:success)
-        expect(parsed_response['name']).to eq('Washington D.C. USA')
-        expect(parsed_response['latitude']).to eq(@test_location['latitude'])
-        expect(parsed_response['longitude']).to eq(@test_location['longitude'])
+        expect(parsed_response['data']['attributes']['name']).to eq('Washington D.C. USA')
+        expect(parsed_response['data']['attributes']['latitude']).to eq(@test_location['latitude'])
+        expect(parsed_response['data']['attributes']['longitude']).to eq(@test_location['longitude'])
       end
     end
   end
@@ -133,9 +133,9 @@ RSpec.describe 'Locations', type: :request do
         parsed_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:success)
-        expect(parsed_response['name']).to eq(@test_location['name'])
-        expect(parsed_response['latitude']).to eq(@test_location['latitude'])
-        expect(parsed_response['longitude']).to eq(@test_location['longitude'])
+        expect(parsed_response['data']['attributes']['name']).to eq(@test_location['name'])
+        expect(parsed_response['data']['attributes']['latitude']).to eq(@test_location['latitude'])
+        expect(parsed_response['data']['attributes']['longitude']).to eq(@test_location['longitude'])
       end
     end
   end
